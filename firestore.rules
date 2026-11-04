@@ -1,0 +1,84 @@
+rules_version = '2';
+// Reglas de seguridad para mayraaguilera.com
+// Pegar en: Firebase Console → Firestore Database → Reglas → Publicar
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    function moderated() {
+      return exists(/databases/$(database)/documents/settings/site)
+        && get(/databases/$(database)/documents/settings/site).data.get('moderateComments', false) == true;
+    }
+
+    // Lista de administradoras (se crea a mano desde la consola)
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    // Perfil y ajustes del sitio
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Artículos y publicaciones del muro
+    match /posts/{id} {
+      allow read: if resource.data.published == true || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Contenido completo de los artículos
+    match /bodies/{id} {
+      allow read: if isAdmin() || get(/databases/$(database)/documents/posts/$(id)).data.published == true;
+      allow write: if isAdmin();
+    }
+
+    // Galería, libros e imágenes
+    match /gallery/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /books/{id}   { allow read: if true; allow write: if isAdmin(); }
+    match /media/{id}   { allow read: if true; allow write: if isAdmin(); }
+
+    // Comentarios de visitantes
+    match /comments/{id} {
+      allow read: if resource.data.approved == true
+        || isAdmin()
+        || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.postId is string
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 2000
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.createdAt is number
+        && (isAdmin() || (request.resource.data.isAdmin == false
+                          && request.resource.data.approved == !moderated()));
+      allow update: if isAdmin();
+      allow delete: if isAdmin() || (signedIn() && resource.data.uid == request.auth.uid);
+    }
+
+    // "Me gusta": un documento por persona y publicación
+    match /likes/{id} {
+      allow read: if true;
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && id == request.resource.data.postId + '_' + request.auth.uid;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    // Formulario de contacto: cualquiera escribe, solo la administradora lee
+    match /messages/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'email', 'phone', 'subject', 'message', 'read', 'createdAt'])
+        && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
+        && request.resource.data.email is string && request.resource.data.email.size() <= 120
+        && request.resource.data.message is string && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 4000
+        && request.resource.data.read == false;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

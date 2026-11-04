@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Redirigiendo…</title>
+<script>
+  var seg = location.pathname.split("/").filter(Boolean);
+  var base = location.hostname.endsWith("github.io") && seg.length ? "/" + seg[0] + "/" : "/";
+  var rest = location.pathname.slice(base.length).replace(/\/+$/, "");
+  location.replace(base + "#/" + rest);
+</script></head><body></body></html>
