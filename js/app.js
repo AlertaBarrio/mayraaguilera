@@ -31,6 +31,8 @@ function updateSavedBadge() {
   const n = savedIds().length, b = $("#btnSaved");
   b.innerHTML = icon("bookmark") + (n ? `<span class="badge-dot">${n}</span>` : "");
 }
+const T = k => S.texts?.[k] ?? "";
+const TT = k => esc(T(k)).replace(/\*(.+?)\*/g, "<em>$1</em>");
 const firstName = () => (S.name || "").split(" ")[0];
 const nameParts = () => { const p = (S.name || "").trim().split(/\s+/); return [p[0] || "", p.slice(1).join(" ")]; };
 const waDigits = () => (S.whatsapp || "").replace(/\D/g, "");
@@ -197,8 +199,8 @@ async function vHome() {
         <p class="hero-role fade-up" style="animation-delay:.35s">${esc(S.role)}</p>
         <p class="lead fade-up" style="animation-delay:.45s">${esc(S.heroText)}</p>
         <div class="cta-row fade-up" style="animation-delay:.55s">
-          <a href="#/libros" class="btn gold">${icon("book")} Ver sus libros</a>
-          <a href="#/trayectoria" class="btn ghost-light">Conocer trayectoria ${icon("arrow")}</a>
+          <a href="#/libros" class="btn gold">${icon("book")} ${esc(T("heroBtn1"))}</a>
+          <a href="#/trayectoria" class="btn ghost-light">${esc(T("heroBtn2"))} ${icon("arrow")}</a>
         </div>
       </div>
       <div class="hero-portrait fade-up" style="animation-delay:.3s">
@@ -214,8 +216,8 @@ async function vHome() {
 
   <section class="sec" style="padding-top:clamp(2rem,5vw,4rem)"><div class="wrap about-grid">
     <div class="reveal">
-      <span class="eyebrow">Perfil</span>
-      <h2 class="h-sec" style="margin-top:1rem">Una vida dedicada a la <em>justicia</em></h2>
+      <span class="eyebrow">${esc(T("homeProfileEyebrow"))}</span>
+      <h2 class="h-sec" style="margin-top:1rem">${TT("homeProfileTitle")}</h2>
       <p class="about-quote">${esc(S.bioShort)}</p>
       <div style="margin-top:2rem"><a href="#/trayectoria" class="btn dark">Trayectoria completa ${icon("arrow")}</a></div>
     </div>
@@ -229,8 +231,8 @@ async function vHome() {
   <section class="sec" id="homeArticles"></section>
   <section class="sec alt" id="homeGallery"></section>
   <section class="sec"><div class="wrap"><div class="cta-band reveal">${bgDeco()}
-    <div><h2>¿Querés comunicarte con <em>${esc(firstName())}</em>?</h2><p>Invitaciones a conferencias, consultas académicas, prensa o información sobre sus libros.</p></div>
-    <div class="cta-row" style="margin:0"><a href="#/contacto" class="btn gold">${icon("mail")} Escribir mensaje</a>${waDigits() ? `<a href="${waLink("Hola, quisiera comunicarme con la Dra. " + S.name)}" target="_blank" rel="noopener" class="btn ghost-light">${icon("whatsapp")} WhatsApp</a>` : ""}</div>
+    <div><h2>${TT("ctaTitle")}</h2><p>${esc(T("ctaText"))}</p></div>
+    <div class="cta-row" style="margin:0"><a href="#/contacto" class="btn gold">${icon("mail")} ${esc(T("ctaButton"))}</a>${waDigits() ? `<a href="${waLink("Hola, quisiera comunicarme con la Dra. " + S.name)}" target="_blank" rel="noopener" class="btn ghost-light">${icon("whatsapp")} WhatsApp</a>` : ""}</div>
   </div></div></section>`;
 
   if (S.photo) D.imageSrc(S.photo).then(s => { const im = $("#heroPhoto"); if (im) im.src = s; });
@@ -238,16 +240,16 @@ async function vHome() {
   const [bks, arts, gal] = await Promise.all([bookItems(), articles(), galleryItems()]);
   const hb = $("#homeBooks"), ha = $("#homeArticles"), hg = $("#homeGallery");
   if (!hb) return;
-  if (bks.length) hb.innerHTML = `<div class="wrap"><div class="sec-head"><div class="reveal"><span class="eyebrow">Publicaciones</span><h2 class="h-sec">Libros de la <em>autora</em></h2><p class="lead">Obras para estudiantes, profesionales y todas las personas interesadas en el Derecho.</p></div><a href="#/libros" class="btn ghost-light reveal">Ver todos ${icon("arrow")}</a></div><div class="books">${bks.slice(0, 3).map(bookCard).join("")}</div></div>`;
+  if (bks.length) hb.innerHTML = `<div class="wrap"><div class="sec-head"><div class="reveal"><span class="eyebrow">${esc(T("homeBooksEyebrow"))}</span><h2 class="h-sec">${TT("homeBooksTitle")}</h2><p class="lead">${esc(T("homeBooksLead"))}</p></div><a href="#/libros" class="btn ghost-light reveal">Ver todos ${icon("arrow")}</a></div><div class="books">${bks.slice(0, 3).map(bookCard).join("")}</div></div>`;
   else hb.remove();
   if (arts.length) {
-    ha.innerHTML = `<div class="wrap"><div class="sec-head"><div class="reveal"><span class="eyebrow">Artículos</span><h2 class="h-sec">Análisis y <em>reflexiones</em></h2></div><a href="#/articulos" class="btn ghost reveal">Todos los artículos ${icon("arrow")}</a></div>
+    ha.innerHTML = `<div class="wrap"><div class="sec-head"><div class="reveal"><span class="eyebrow">${esc(T("homeArticlesEyebrow"))}</span><h2 class="h-sec">${TT("homeArticlesTitle")}</h2></div><a href="#/articulos" class="btn ghost reveal">Todos los artículos ${icon("arrow")}</a></div>
       <div class="cards">${arts.slice(0, 4).map((p, i) => articleCard(p, i === 0, "d" + (i % 3))).join("")}</div></div>`;
     bindSaveButtons(ha);
   } else ha.remove();
   if (gal.length) {
     const sub = gal.slice(0, 6);
-    hg.innerHTML = `<div class="wrap"><div class="sec-head"><div class="reveal"><span class="eyebrow">Galería</span><h2 class="h-sec">Actividades y <em>momentos</em></h2></div><a href="#/galeria" class="btn ghost reveal">Abrir galería ${icon("arrow")}</a></div><div class="mosaic">${sub.map(galleryTile).join("")}</div></div>`;
+    hg.innerHTML = `<div class="wrap"><div class="sec-head"><div class="reveal"><span class="eyebrow">${esc(T("homeGalleryEyebrow"))}</span><h2 class="h-sec">${TT("homeGalleryTitle")}</h2></div><a href="#/galeria" class="btn ghost reveal">Abrir galería ${icon("arrow")}</a></div><div class="mosaic">${sub.map(galleryTile).join("")}</div></div>`;
     $$(".m-item", hg).forEach(b => b.onclick = () => lightbox(galleryLb(sub), +b.dataset.i));
   } else hg.remove();
   reveal();
@@ -258,19 +260,19 @@ function pageHead(eyebrow, title, lead = "") {
 }
 
 async function vAbout() {
-  view.innerHTML = pageHead("Trayectoria", `${esc(S.fullName || S.name)}`, esc(S.role)) + `
+  view.innerHTML = pageHead(esc(T("aboutEyebrow")), `${esc(S.fullName || S.name)}`, esc(S.role)) + `
   <section class="sec"><div class="wrap about-grid">
     <div class="reveal">
       <div class="arch" style="max-width:380px;background:var(--ink)">${S.photo ? `<img src="${imgThumb(S.photo)}" alt="" id="aboutPhoto">` : `<div class="arch-mono"><b>${esc(nameParts()[0][0] || "")}${esc(nameParts()[1][0] || "")}</b></div>`}</div>
       <div class="cred-list">${(S.credentials || []).map((c, i) => `<div class="cred"><i>0${i + 1}</i><span>${esc(c)}</span></div>`).join("")}</div>
     </div>
     <div class="reveal d1">
-      <span class="eyebrow">Biografía</span>
+      <span class="eyebrow">${esc(T("aboutBioEyebrow"))}</span>
       <div class="prose" style="margin-top:1.5rem">${sanitize(S.bioHtml)}</div>
     </div>
   </div></section>
   <section class="sec dark"><div class="wrap about-grid">
-    <div class="reveal"><span class="eyebrow">Recorrido</span><h2 class="h-sec" style="margin-top:1rem">Del Ministerio Público a la <em>Asesoría de Estado</em></h2><p class="lead" style="margin-top:1rem">Experiencia en la persecución penal, la judicatura, la magistratura y la academia.</p></div>
+    <div class="reveal"><span class="eyebrow">${esc(T("timelineEyebrow"))}</span><h2 class="h-sec" style="margin-top:1rem">${TT("timelineTitle")}</h2><p class="lead" style="margin-top:1rem">${esc(T("timelineLead"))}</p></div>
     <div class="timeline reveal d1">${(S.timeline || []).map((t, i, a) => `<div class="tl ${i === a.length - 1 ? "now" : ""}"><small>${esc(t.year)}</small><h4>${esc(t.title)}</h4><p>${esc(t.text)}</p></div>`).join("")}</div>
   </div></section>
   <section class="sec tight"><div class="wrap"><div class="stats">${(S.stats || []).map((s, i) => `<div class="stat reveal d${i}"><b>${esc(s.value).replace("%", "<sup>%</sup>")}</b><span>${esc(s.label)}</span></div>`).join("")}</div></div></section>`;
@@ -282,7 +284,7 @@ async function vArticles(q) {
   const all = await articles();
   const cats = [...new Set([...(S.categories || []), ...all.map(a => a.category).filter(Boolean)])].filter(c => all.some(a => a.category === c));
   let cat = q.get("tema") || "", term = "";
-  view.innerHTML = pageHead("Artículos", "Temas de <em>Derecho</em>", "Análisis, opiniones y guías prácticas sobre las distintas ramas del Derecho. Guardá los temas que te interesen para leerlos después.") + `
+  view.innerHTML = pageHead(esc(T("articlesEyebrow")), TT("articlesTitle"), esc(T("articlesLead"))) + `
   <section class="sec" style="padding-top:3rem"><div class="wrap">
     <div class="toolbar"><div class="chips" id="cats"><button class="chip" data-c="">Todos</button>${cats.map(c => `<button class="chip" data-c="${esc(c)}">${esc(c)}</button>`).join("")}</div>
       <label class="searchbox">${icon("search")}<input type="search" id="q" placeholder="Buscar artículos…" aria-label="Buscar"></label></div>
@@ -368,7 +370,7 @@ function bindWall(root, posts, openComments = false) {
 
 async function vWall() {
   const [posts, arts, gal] = await Promise.all([wallPosts(), articles(), galleryItems()]);
-  view.innerHTML = pageHead("Muro", "Novedades y <em>conversación</em>", "Publicaciones, anuncios y momentos compartidos. Reaccioná y comentá.") + `
+  view.innerHTML = pageHead(esc(T("wallEyebrow")), TT("wallTitle"), esc(T("wallLead"))) + `
   <section class="sec" style="padding-top:3rem"><div class="wrap wall-layout">
     <aside class="wall-side reveal">
       <div class="profile-card"><div class="pc-cover"></div><div class="pc-body">${avatarMe()}<h3>${esc(S.name)}</h3><p>${esc(S.currentPosition)}</p>
@@ -385,7 +387,7 @@ async function vWall() {
 async function vWallPost(id) {
   const p = await D.get("posts", id).catch(() => null);
   if (!p || p.type !== "wall" || (!p.published && !D.user()?.isAdmin)) return vNotFound();
-  view.innerHTML = pageHead("Muro", "Publicación") + `<section class="sec" style="padding-top:3rem"><div class="wrap" style="max-width:680px"><a href="#/muro" class="link-arrow" style="margin-bottom:1.5rem">${icon("left")} Volver al muro</a><div class="feed" id="feed" style="margin-top:1rem">${wallCard(p)}</div></div></section>`;
+  view.innerHTML = pageHead(esc(T("wallEyebrow")), "Publicación") + `<section class="sec" style="padding-top:3rem"><div class="wrap" style="max-width:680px"><a href="#/muro" class="link-arrow" style="margin-bottom:1.5rem">${icon("left")} Volver al muro</a><div class="feed" id="feed" style="margin-top:1rem">${wallCard(p)}</div></div></section>`;
   bindWall($("#feed"), [p], true);
   reveal();
 }
@@ -394,7 +396,7 @@ async function vGallery(q) {
   const all = await galleryItems();
   const albums = [...new Set(all.map(g => g.album).filter(Boolean))];
   let al = q.get("album") || "";
-  view.innerHTML = pageHead("Galería", "Actividades y <em>momentos</em>", "Conferencias, clases, eventos institucionales y encuentros con la comunidad jurídica.") + `
+  view.innerHTML = pageHead(esc(T("galleryEyebrow")), TT("galleryTitle"), esc(T("galleryLead"))) + `
   <section class="sec" style="padding-top:3rem"><div class="wrap">
     ${albums.length > 1 ? `<div class="chips albums" id="albums"><button class="chip" data-a="">Todo · ${all.length}</button>${albums.map(a => `<button class="chip" data-a="${esc(a)}">${esc(a)} · ${all.filter(g => g.album === a).length}</button>`).join("")}</div>` : ""}
     <div class="masonry" id="grid"></div></div></section>`;
@@ -411,7 +413,7 @@ async function vGallery(q) {
 
 async function vBooks() {
   const bks = await bookItems();
-  view.innerHTML = pageHead("Libros", "Obras de la <em>autora</em>", "Adquirí sus publicaciones directamente. Cada libro incluye información de compra o pedido.") + `
+  view.innerHTML = pageHead(esc(T("booksEyebrow")), TT("booksTitle"), esc(T("booksLead"))) + `
   <section class="sec"><div class="wrap">${bks.length ? `<div class="books">${bks.map(bookCard).join("")}</div>` : `<div class="empty">${icon("book")}<h3>Muy pronto</h3><p>Los libros estarán disponibles en breve.</p></div>`}</div></section>`;
   reveal();
 }
@@ -442,7 +444,7 @@ async function vBook(id) {
 }
 
 async function vContact(q) {
-  view.innerHTML = pageHead("Contacto", "Conversemos", "Invitaciones a conferencias, actividades académicas, prensa o pedidos de libros.") + `
+  view.innerHTML = pageHead(esc(T("contactEyebrow")), TT("contactTitle"), esc(T("contactLead"))) + `
   <section class="sec"><div class="wrap contact-grid">
     <div class="reveal">
       <div class="contact-cards">
@@ -461,7 +463,7 @@ async function vContact(q) {
         <div class="f"><label for="s">Asunto</label><input id="s" name="subject" required maxlength="150" value="${esc(q.get("asunto") || "")}"></div>
         <div class="f full"><label for="m">Mensaje</label><textarea id="m" name="message" required maxlength="4000"></textarea></div>
         <input name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
-        <div class="full" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap"><small class="muted">Tu mensaje llega directamente a su panel.</small><button class="btn dark">${icon("arrow")} Enviar mensaje</button></div>
+        <div class="full" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap"><small class="muted">${esc(T("contactNote"))}</small><button class="btn dark">${icon("arrow")} Enviar mensaje</button></div>
       </div>
     </form>
   </div></section>`;
@@ -482,7 +484,7 @@ async function vSaved() {
   const ids = savedIds();
   const all = await articles();
   const list = ids.map(id => all.find(a => a.id === id)).filter(Boolean);
-  view.innerHTML = pageHead("Guardados", "Tus <em>temas</em>", "Los artículos que guardás quedan en este dispositivo para leerlos cuando quieras.") + `
+  view.innerHTML = pageHead("Guardados", TT("savedTitle"), esc(T("savedLead"))) + `
   <section class="sec"><div class="wrap"><div class="cards" id="list">${list.length ? list.map(p => articleCard(p)).join("") : `<div class="empty" style="grid-column:1/-1">${icon("bookmark")}<h3>Aún no guardaste temas</h3><p>Tocá el ícono de marcador en cualquier artículo.</p><a href="#/articulos" class="btn dark" style="margin-top:1rem">Explorar artículos</a></div>`}</div></div></section>`;
   bindSaveButtons(view); reveal();
 }
@@ -515,7 +517,11 @@ function renderChrome() {
   $("#btnMenu").innerHTML = icon("menu");
   $(".drawer-x").innerHTML = icon("x");
   updateSavedBadge();
-  $("#tabbar").innerHTML = [["", "home", "Inicio"], ["articulos", "article", "Artículos"], ["muro", "wall", "Muro"], ["galeria", "image", "Galería"], ["libros", "book", "Libros"]]
+  const NAV = { "": T("nav_inicio"), trayectoria: T("nav_trayectoria"), articulos: T("nav_articulos"), muro: T("nav_muro"), galeria: T("nav_galeria"), libros: T("nav_libros"), contacto: T("nav_contacto") };
+  $$(".nav-links a").forEach(a => { if (a.dataset.nav in NAV) a.textContent = NAV[a.dataset.nav]; });
+  $$(".drawer nav a").forEach(a => { const k = a.getAttribute("href").replace("#/", ""); if (k in NAV) a.textContent = NAV[k]; });
+  $(".brand-text small").textContent = T("brandTagline");
+  $("#tabbar").innerHTML = [["", "home", NAV[""]], ["articulos", "article", NAV.articulos], ["muro", "wall", NAV.muro], ["galeria", "image", NAV.galeria], ["libros", "book", NAV.libros]]
     .map(([r, ic, t]) => `<a href="#/${r}" data-nav="${r}">${icon(ic)}<span>${t}</span></a>`).join("");
   $("#drawerFoot").innerHTML = `<div class="socials">${socialsHtml()}</div>`;
   const [first, rest] = nameParts();
@@ -523,7 +529,7 @@ function renderChrome() {
     <div class="foot-grid">
       <div><a href="#/" class="brand"><img class="logo lg" src="assets/logo-ma.webp" alt="MA"><span class="brand-text"><b>${esc(S.name)}</b><small>${esc(S.role)}</small></span></a>
         <p style="max-width:42ch;margin:1.2rem 0 1.4rem;font-size:.92rem">${esc(S.currentPosition)}. ${esc(S.currentRank)}.</p><div class="socials">${socialsHtml()}</div></div>
-      <div><h5>Explorar</h5><nav><a href="#/trayectoria">Trayectoria</a><a href="#/articulos">Artículos</a><a href="#/muro">Muro</a><a href="#/galeria">Galería</a><a href="#/libros">Libros</a></nav></div>
+      <div><h5>Explorar</h5><nav>${["trayectoria", "articulos", "muro", "galeria", "libros"].map(k => `<a href="#/${k}">${esc(NAV[k])}</a>`).join("")}</nav></div>
       <div><h5>Contacto</h5><nav>${S.email ? `<a href="mailto:${esc(S.email)}">${esc(S.email)}</a>` : ""}${waDigits() ? `<a href="${waLink("Hola")}" target="_blank" rel="noopener">WhatsApp</a>` : ""}<a href="#/contacto">Enviar mensaje</a>${S.location ? `<span>${esc(S.location)}</span>` : ""}</nav></div>
     </div>
     <p class="foot-big">${esc(S.name)}</p>
@@ -578,7 +584,7 @@ async function route() {
       catch (e) { console.error(e); view.innerHTML = pageHead("Error", "Algo salió <em>mal</em>", "No se pudo cargar esta sección. Intentá recargar la página."); }
       view.classList.remove("view-enter"); void view.offsetWidth; view.classList.add("view-enter");
       reveal(); onScroll();
-      const titles = { "": "", trayectoria: "Trayectoria", articulos: "Artículos", muro: "Muro", galeria: "Galería", libros: "Libros", contacto: "Contacto", guardados: "Guardados" };
+      const titles = { "": "", trayectoria: T("nav_trayectoria"), articulos: T("nav_articulos"), muro: T("nav_muro"), galeria: T("nav_galeria"), libros: T("nav_libros"), contacto: T("nav_contacto"), guardados: "Guardados" };
       const t = $(".article-head h1, .book-detail h1")?.textContent || titles[path.split("/")[0]];
       document.title = (t ? t + " · " : "") + S.name + " · " + S.role.split("·").pop().trim();
       return;

@@ -1,11 +1,12 @@
 import * as D from "./data.js";
+import { DEFAULT_TEXTS } from "./seed.js";
 import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js";
 
 const root = $("#root");
 let S = null, mode = "";
 const SECTIONS = [
   ["resumen", "grid", "Resumen"], ["articulos", "article", "Artículos"], ["muro", "wall", "Muro"], ["comentarios", "comment", "Comentarios"],
-  ["galeria", "image", "Galería"], ["libros", "book", "Libros"], ["mensajes", "mail", "Mensajes"], ["perfil", "user", "Perfil y trayectoria"], ["ajustes", "settings", "Ajustes"]
+  ["galeria", "image", "Galería"], ["libros", "book", "Libros"], ["mensajes", "mail", "Mensajes"], ["perfil", "user", "Perfil y trayectoria"], ["textos", "edit", "Textos del sitio"], ["ajustes", "settings", "Ajustes"]
 ];
 const byDate = (a, b) => (b.createdAt || 0) - (a.createdAt || 0);
 const thumb = img => esc(img?.thumb || img?.src || "");
@@ -540,6 +541,39 @@ VIEWS.perfil = async () => {
       await D.set("settings", "site", data, true);
       S = { ...S, ...data };
       toast("Perfil actualizado");
+    } catch (err) { fail(err, "No se pudo guardar"); }
+    btn.disabled = false;
+  };
+};
+
+// ───────────── TEXTOS DEL SITIO ─────────────
+const TEXT_GROUPS = [
+  ["Menú y encabezado", [["brandTagline", "Frase bajo el nombre (arriba a la izquierda)"], ["nav_inicio", "Menú: Inicio"], ["nav_trayectoria", "Menú: Trayectoria"], ["nav_articulos", "Menú: Artículos"], ["nav_muro", "Menú: Muro"], ["nav_galeria", "Menú: Galería"], ["nav_libros", "Menú: Libros"], ["nav_contacto", "Menú: Contacto"]]],
+  ["Página de inicio", [["heroBtn1", "Botón principal de la portada"], ["heroBtn2", "Botón secundario de la portada"], ["homeProfileEyebrow", "Perfil · etiqueta"], ["homeProfileTitle", "Perfil · título"], ["homeBooksEyebrow", "Libros · etiqueta"], ["homeBooksTitle", "Libros · título"], ["homeBooksLead", "Libros · descripción", 1], ["homeArticlesEyebrow", "Artículos · etiqueta"], ["homeArticlesTitle", "Artículos · título"], ["homeGalleryEyebrow", "Galería · etiqueta"], ["homeGalleryTitle", "Galería · título"], ["ctaTitle", "Recuadro de contacto · título"], ["ctaText", "Recuadro de contacto · texto", 1], ["ctaButton", "Recuadro de contacto · botón"]]],
+  ["Trayectoria", [["aboutEyebrow", "Etiqueta de la página"], ["aboutBioEyebrow", "Etiqueta de la biografía"], ["timelineEyebrow", "Línea de tiempo · etiqueta"], ["timelineTitle", "Línea de tiempo · título"], ["timelineLead", "Línea de tiempo · descripción", 1]]],
+  ["Artículos", [["articlesEyebrow", "Etiqueta"], ["articlesTitle", "Título"], ["articlesLead", "Descripción", 1]]],
+  ["Muro", [["wallEyebrow", "Etiqueta"], ["wallTitle", "Título"], ["wallLead", "Descripción", 1]]],
+  ["Galería", [["galleryEyebrow", "Etiqueta"], ["galleryTitle", "Título"], ["galleryLead", "Descripción", 1]]],
+  ["Libros", [["booksEyebrow", "Etiqueta"], ["booksTitle", "Título"], ["booksLead", "Descripción", 1]]],
+  ["Contacto", [["contactEyebrow", "Etiqueta"], ["contactTitle", "Título"], ["contactLead", "Descripción", 1], ["contactNote", "Nota junto al botón de enviar"]]],
+  ["Guardados", [["savedTitle", "Título"], ["savedLead", "Descripción", 1]]]
+];
+VIEWS.textos = async () => {
+  setTop("Textos del sitio", `<a href="./" target="_blank" class="btn ghost sm">${icon("eye")}<span>Ver sitio</span></a>`);
+  S = await D.getSettings();
+  const t = S.texts || {};
+  C().innerHTML = `<div class="demo-note">${icon("edit")}<div>Acá cambiás los títulos y descripciones de cada página. En los títulos, escribí una palabra entre asteriscos para resaltarla en <em style="color:var(--gold)">cursiva dorada</em>: <code>Actividades y *momentos*</code>. Si borrás un campo, vuelve al texto original.</div></div>
+  <form id="tf">${TEXT_GROUPS.map(([g, fields]) => `<div class="panel"><h3>${esc(g)}</h3><div class="fgrid">${fields.map(([k, label, long]) => `
+    <div class="f ${long ? "full" : ""}"><label>${esc(label)}</label>${long ? `<textarea name="${k}" rows="2" style="min-height:70px" placeholder="${esc(DEFAULT_TEXTS[k])}">${esc(t[k] ?? "")}</textarea>` : `<input name="${k}" value="${esc(t[k] ?? "")}" placeholder="${esc(DEFAULT_TEXTS[k])}">`}</div>`).join("")}</div></div>`).join("")}
+  <div class="form-actions"><button class="btn gold">${icon("check")} Guardar textos</button></div></form>`;
+  $("#tf").onsubmit = async e => {
+    e.preventDefault();
+    const f = e.target, btn = $(".form-actions .btn", f); btn.disabled = true;
+    try {
+      const texts = {};
+      TEXT_GROUPS.forEach(([, fields]) => fields.forEach(([k]) => { texts[k] = val(f, k) || DEFAULT_TEXTS[k]; }));
+      await D.set("settings", "site", { texts }, true);
+      toast("Textos guardados. Recargá el sitio para verlos.");
     } catch (err) { fail(err, "No se pudo guardar"); }
     btn.disabled = false;
   };

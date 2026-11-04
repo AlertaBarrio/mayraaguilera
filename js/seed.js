@@ -119,3 +119,23 @@ export function buildSeed() {
   };
   return { settings: { site: { ...DEFAULT_SETTINGS } }, posts, bodies, gallery, books, comments, likes: {}, messages: {}, media: {} };
 }
+
+// Textos editables del sitio (panel → Textos del sitio). En los títulos, *palabra* se muestra en cursiva dorada.
+export const DEFAULT_TEXTS = {
+  brandTagline: "Doctora en Ciencias Penales",
+  nav_inicio: "Inicio", nav_trayectoria: "Trayectoria", nav_articulos: "Artículos", nav_muro: "Muro", nav_galeria: "Galería", nav_libros: "Libros", nav_contacto: "Contacto",
+  heroBtn1: "Ver sus libros", heroBtn2: "Conocer trayectoria",
+  homeProfileEyebrow: "Perfil", homeProfileTitle: "Una vida dedicada a la *justicia*",
+  homeBooksEyebrow: "Publicaciones", homeBooksTitle: "Libros de la *autora*", homeBooksLead: "Obras para estudiantes, profesionales y todas las personas interesadas en el Derecho.",
+  homeArticlesEyebrow: "Artículos", homeArticlesTitle: "Análisis y *reflexiones*",
+  homeGalleryEyebrow: "Galería", homeGalleryTitle: "Actividades y *momentos*",
+  ctaTitle: "¿Querés comunicarte con *Mayra*?", ctaText: "Invitaciones a conferencias, consultas académicas, prensa o información sobre sus libros.", ctaButton: "Escribir mensaje",
+  aboutEyebrow: "Trayectoria", aboutBioEyebrow: "Biografía",
+  timelineEyebrow: "Recorrido", timelineTitle: "Del Ministerio Público a la *Asesoría de Estado*", timelineLead: "Experiencia en la persecución penal, la judicatura, la magistratura y la academia.",
+  articlesEyebrow: "Artículos", articlesTitle: "Temas de *Derecho*", articlesLead: "Análisis, opiniones y guías prácticas sobre las distintas ramas del Derecho. Guardá los temas que te interesen para leerlos después.",
+  wallEyebrow: "Muro", wallTitle: "Novedades y *conversación*", wallLead: "Publicaciones, anuncios y momentos compartidos. Reaccioná y comentá.",
+  galleryEyebrow: "Galería", galleryTitle: "Actividades y *momentos*", galleryLead: "Conferencias, clases, eventos institucionales y encuentros con la comunidad jurídica.",
+  booksEyebrow: "Libros", booksTitle: "Obras de la *autora*", booksLead: "Adquirí sus publicaciones directamente. Cada libro incluye información de compra o pedido.",
+  contactEyebrow: "Contacto", contactTitle: "Conversemos", contactLead: "Invitaciones a conferencias, actividades académicas, prensa o pedidos de libros.", contactNote: "Tu mensaje llega directamente a su panel.",
+  savedTitle: "Tus *temas*", savedLead: "Los artículos que guardás quedan en este dispositivo para leerlos cuando quieras."
+};

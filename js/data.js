@@ -1,6 +1,6 @@
 // Capa de datos: funciona igual en MODO DEMO (navegador) y con Firebase (producción).
 import { firebaseConfig, DEMO_MODE, FIREBASE_VERSION, ADMIN_EMAILS } from "./config.js";
-import { buildSeed, DEFAULT_SETTINGS } from "./seed.js";
+import { buildSeed, DEFAULT_SETTINGS, DEFAULT_TEXTS } from "./seed.js";
 
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const listeners = new Set();
@@ -123,6 +123,8 @@ export async function getSettings() {
   try { d = await impl.get("settings", "site"); } catch { }
   const out = { ...DEFAULT_SETTINGS, ...(d || {}) };
   out.socials = { ...DEFAULT_SETTINGS.socials, ...(d?.socials || {}) };
+  out.texts = { ...DEFAULT_TEXTS };
+  Object.entries(d?.texts || {}).forEach(([k, v]) => { if (typeof v === "string" && v.trim()) out.texts[k] = v; });
   return out;
 }
 
