@@ -94,7 +94,7 @@ main { min-height: 70vh; outline: none; }
 .logo { height: 40px; width: auto; flex: none; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .25)); }
 .logo.lg { height: 56px; }
 .drawer-logo { height: 64px; margin-bottom: 1.5rem; align-self: flex-start; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; padding-top: 5px; gap: 5px; }
 .brand-text b { font-family: var(--serif); font-size: 1.3rem; font-weight: 600; white-space: nowrap; }
 .brand-text small { font-size: .64rem; letter-spacing: .18em; text-transform: uppercase; opacity: .65; white-space: nowrap; }
 .nav-links { display: flex; gap: .2rem; margin-left: auto; }
