@@ -20,7 +20,7 @@ export const DEFAULT_SETTINGS = {
   ],
   stats: [
     { value: "95%", label: "En las evaluaciones técnicas del proceso para elegir Fiscal General (2018)" },
-    { value: "4", label: "Ámbitos del sistema de justicia: fiscalía, juzgado, corte y Estado" },
+    { value: "4", label: "Ámbitos del sistema de justicia: Fiscalía, Juzgado, Corte y Estado" },
     { value: "2", label: "Universidades donde ha ejercido la cátedra" }
   ],
   timeline: [
