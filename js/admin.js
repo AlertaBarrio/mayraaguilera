@@ -129,11 +129,11 @@ function loginView(msg = "") {
       <img class="logo login-logo" src="assets/logo-ma.webp" alt="MA">
       <h1>Panel de administración</h1>
       <p>Ingresá para gestionar el contenido del sitio.</p>
-      <div class="f"><label for="em">Correo</label><input id="em" name="email" type="email" required autocomplete="username"></div>
+      ${D.isDemo() ? `<div class="f"><label for="em">Correo</label><input id="em" name="email" type="email" required autocomplete="username"></div>
       <div class="f"><label for="pw">Contraseña</label><input id="pw" name="pass" type="password" required autocomplete="current-password"></div>
       <button class="btn gold">Ingresar ${icon("arrow")}</button>
       <div class="or"><span>o</span></div>
-      <button type="button" class="btn ghost-light" id="gbtn" style="margin-top:0">${icon("user")} Ingresar con Google</button>
+      <button type="button" class="btn ghost-light" id="gbtn" style="margin-top:0">${icon("user")} Ingresar con Google</button>` : `<button type="button" class="btn gold" id="gbtn" style="margin-top:.5rem">${icon("user")} Ingresar con Google</button>`}
       <div class="login-err">${esc(msg)}</div>
       ${D.isDemo() ? `<div class="login-note"><b>Modo demostración:</b> escribí cualquier correo y contraseña para explorar el panel. Los cambios solo se guardan en este navegador.</div>` : ""}
       <a href="./" class="login-back">${icon("left")} Volver al sitio</a>

@@ -8,12 +8,12 @@
 // ─────────────────────────────────────────────────────────────
 
 export const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyDP1j8p_cmNZ66JdRHOnNFt64U70vKLeSo",
+  authDomain: "mayraaguilera-c7272.firebaseapp.com",
+  projectId: "mayraaguilera-c7272",
+  storageBucket: "mayraaguilera-c7272.firebasestorage.app",
+  messagingSenderId: "20852907723",
+  appId: "1:20852907723:web:3986d0cc563b37144b054e"
 };
 
 export const DEMO_MODE = !firebaseConfig.apiKey;

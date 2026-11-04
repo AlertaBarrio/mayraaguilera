@@ -23,6 +23,8 @@ Sitio oficial de **Mayra Aguilera**: libros, artículos jurídicos, muro, galer�
 
 Panel: **https://mayraaguilera.com/admin.html**
 
+> **Estado actual (nov. 2026):** publicado en la dirección provisional **https://alertabarrio.github.io/mayraaguilera/** (panel: `/admin.html`), conectado al proyecto de Firebase `mayraaguilera-c7272` (cuenta mayraaguilerahn@gmail.com). La doctora entra al panel con **"Ingresar con Google"**. Los pasos 3 y 4 de abajo ya están hechos. Cuando compres el dominio, hacé solo el **Paso 2** y agregá un archivo `CNAME` con `mayraaguilera.com`. `mayraaguilera.com` ya está autorizado en Firebase.
+
 ---
 
 ## Paso 1: Subir el sitio a GitHub Pages
