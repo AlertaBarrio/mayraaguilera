@@ -16,5 +16,8 @@ export const firebaseConfig = {
   appId: "1:20852907723:web:3986d0cc563b37144b054e"
 };
 
+// Correos con acceso al panel (deben coincidir con la lista en firestore.rules)
+export const ADMIN_EMAILS = ["mayraaguilerahn@gmail.com"];
+
 export const DEMO_MODE = !firebaseConfig.apiKey;
 export const FIREBASE_VERSION = "10.12.2";

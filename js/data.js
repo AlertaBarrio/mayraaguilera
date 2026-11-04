@@ -1,5 +1,5 @@
 // Capa de datos: funciona igual en MODO DEMO (navegador) y con Firebase (producción).
-import { firebaseConfig, DEMO_MODE, FIREBASE_VERSION } from "./config.js";
+import { firebaseConfig, DEMO_MODE, FIREBASE_VERSION, ADMIN_EMAILS } from "./config.js";
 import { buildSeed, DEFAULT_SETTINGS } from "./seed.js";
 
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
@@ -52,8 +52,8 @@ async function firebaseImpl() {
   let first; const firstAuth = new Promise(r => (first = r));
   U.onAuthStateChanged(auth, async u => {
     if (!u) { setUser(null); first(); return; }
-    let isAdmin = false;
-    try { isAdmin = (await F.getDoc(F.doc(db, "admins", u.uid))).exists(); } catch { }
+    let isAdmin = !!(u.emailVerified && ADMIN_EMAILS.includes((u.email || "").toLowerCase()));
+    if (!isAdmin) { try { isAdmin = (await F.getDoc(F.doc(db, "admins", u.uid))).exists(); } catch { } }
     setUser({ uid: u.uid, name: u.displayName || (u.email || "Usuario").split("@")[0], email: u.email, photo: u.photoURL || null, isAdmin });
     first();
   });

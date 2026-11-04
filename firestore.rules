@@ -5,8 +5,12 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
+    // Administradoras: por correo verificado (lista abajo) o por documento en /admins/{uid}
     function isAdmin() {
-      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      return signedIn() && (
+        (request.auth.token.email_verified == true
+          && request.auth.token.email in ['mayraaguilerahn@gmail.com'])
+        || exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
     }
     function moderated() {
       return exists(/databases/$(database)/documents/settings/site)
