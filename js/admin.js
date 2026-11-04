@@ -1,6 +1,6 @@
-import * as D from "./data.js?v=20261104c";
-import { DEFAULT_TEXTS } from "./seed.js?v=20261104c";
-import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js?v=20261104c";
+import * as D from "./data.js?v=20261104d";
+import { DEFAULT_TEXTS } from "./seed.js?v=20261104d";
+import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js?v=20261104d";
 
 const root = $("#root");
 let S = null, mode = "";
@@ -518,7 +518,7 @@ VIEWS.perfil = async () => {
     <div class="panel"><h3>Biografía completa</h3><div id="bio"></div></div>
     <div class="panel"><h3>Credenciales <small>una por línea</small></h3><div class="f"><textarea name="credentials" rows="5">${esc((S.credentials || []).join("\n"))}</textarea></div></div>
     <div class="two" style="margin-top:1.2rem">
-      <div class="panel"><h3>Cifras destacadas <small>valor | descripción</small></h3><div class="f"><textarea name="stats" rows="5">${esc((S.stats || []).map(s => `${s.value} | ${s.label}`).join("\n"))}</textarea><span class="hint">Ej.: 95% | Evaluación técnica 2018. La primera también aparece flotando junto a la foto.</span></div></div>
+      <div class="panel"><h3>Cifras destacadas <small>valor | descripción</small></h3><div class="f"><textarea name="stats" rows="5">${esc((S.stats || []).map(s => `${s.value} | ${s.label}`).join("\n"))}</textarea><span class="hint">Ej.: 95% | Evaluación técnica 2018. Se muestran debajo de la portada.</span></div></div>
       <div class="panel"><h3>Línea de tiempo <small>etiqueta | cargo | detalle</small></h3><div class="f"><textarea name="timeline" rows="7">${esc((S.timeline || []).map(t => `${t.year} | ${t.title} | ${t.text}`).join("\n"))}</textarea><span class="hint">En orden cronológico. La última se marca como actual.</span></div></div>
     </div>
     <div class="form-actions"><button class="btn gold">${icon("check")} Guardar perfil</button></div>
@@ -549,7 +549,7 @@ VIEWS.perfil = async () => {
 // ───────────── TEXTOS DEL SITIO ─────────────
 const TEXT_GROUPS = [
   ["Menú y encabezado", [["brandTagline", "Frase bajo el nombre (encabezado y pie de página)"], ["nav_inicio", "Menú: Inicio"], ["nav_trayectoria", "Menú: Trayectoria"], ["nav_articulos", "Menú: Artículos"], ["nav_muro", "Menú: Muro"], ["nav_galeria", "Menú: Galería"], ["nav_libros", "Menú: Libros"], ["nav_contacto", "Menú: Contacto"]]],
-  ["Página de inicio", [["heroBtn1", "Botón principal de la portada"], ["heroBtn2", "Botón secundario de la portada"], ["homeProfileEyebrow", "Perfil · etiqueta"], ["homeProfileTitle", "Perfil · título"], ["homeBooksEyebrow", "Libros · etiqueta"], ["homeBooksTitle", "Libros · título"], ["homeBooksLead", "Libros · descripción", 1], ["homeArticlesEyebrow", "Artículos · etiqueta"], ["homeArticlesTitle", "Artículos · título"], ["homeGalleryEyebrow", "Galería · etiqueta"], ["homeGalleryTitle", "Galería · título"], ["ctaTitle", "Recuadro de contacto · título"], ["ctaText", "Recuadro de contacto · texto", 1], ["ctaButton", "Recuadro de contacto · botón"]]],
+  ["Página de inicio", [["heroBadgeValue", "Distintivo junto a la foto · texto grande (ej. Dra.)"], ["heroBadgeLabel", "Distintivo junto a la foto · descripción (escribí - para ocultarlo)"], ["heroBtn1", "Botón principal de la portada"], ["heroBtn2", "Botón secundario de la portada"], ["homeProfileEyebrow", "Perfil · etiqueta"], ["homeProfileTitle", "Perfil · título"], ["homeBooksEyebrow", "Libros · etiqueta"], ["homeBooksTitle", "Libros · título"], ["homeBooksLead", "Libros · descripción", 1], ["homeArticlesEyebrow", "Artículos · etiqueta"], ["homeArticlesTitle", "Artículos · título"], ["homeGalleryEyebrow", "Galería · etiqueta"], ["homeGalleryTitle", "Galería · título"], ["ctaTitle", "Recuadro de contacto · título"], ["ctaText", "Recuadro de contacto · texto", 1], ["ctaButton", "Recuadro de contacto · botón"]]],
   ["Trayectoria", [["aboutEyebrow", "Etiqueta de la página"], ["aboutBioEyebrow", "Etiqueta de la biografía"], ["timelineEyebrow", "Línea de tiempo · etiqueta"], ["timelineTitle", "Línea de tiempo · título"], ["timelineLead", "Línea de tiempo · descripción", 1]]],
   ["Artículos", [["articlesEyebrow", "Etiqueta"], ["articlesTitle", "Título"], ["articlesLead", "Descripción", 1]]],
   ["Muro", [["wallEyebrow", "Etiqueta"], ["wallTitle", "Título"], ["wallLead", "Descripción", 1]]],
@@ -562,7 +562,7 @@ VIEWS.textos = async () => {
   setTop("Textos del sitio", `<a href="./" target="_blank" class="btn ghost sm">${icon("eye")}<span>Ver sitio</span></a>`);
   S = await D.getSettings();
   const t = S.texts || {};
-  C().innerHTML = `<div class="demo-note">${icon("edit")}<div>Acá cambiás los títulos y descripciones de cada página. En los títulos, escribí una palabra entre asteriscos para resaltarla en <em style="color:var(--gold)">cursiva dorada</em>: <code>Actividades y *momentos*</code>. Si borrás un campo, vuelve al texto original.</div></div>
+  C().innerHTML = `<div class="demo-note">${icon("edit")}<div>Acá cambiás los títulos y descripciones de cada página. En los títulos, escribí una palabra entre asteriscos para resaltarla en <em style="color:var(--gold)">cursiva dorada</em>: <code>Actividades y *momentos*</code>. Si borrás un campo, vuelve al texto original. Para ocultar un texto, escribí solo un guion ( - ).</div></div>
   <form id="tf">${TEXT_GROUPS.map(([g, fields]) => `<div class="panel"><h3>${esc(g)}</h3><div class="fgrid">${fields.map(([k, label, long]) => `
     <div class="f ${long ? "full" : ""}"><label>${esc(label)}</label>${long ? `<textarea name="${k}" rows="2" style="min-height:70px" placeholder="${esc(DEFAULT_TEXTS[k])}">${esc(t[k] ?? "")}</textarea>` : `<input name="${k}" value="${esc(t[k] ?? "")}" placeholder="${esc(DEFAULT_TEXTS[k])}">`}</div>`).join("")}</div></div>`).join("")}
   <div class="form-actions"><button class="btn gold">${icon("check")} Guardar textos</button></div></form>`;

@@ -19,7 +19,7 @@ export const DEFAULT_SETTINGS = {
     "Catedrática en UCENM y UNICAH"
   ],
   stats: [
-    { value: "95%", label: "Evaluación técnica, proceso de Fiscal General 2018" },
+    { value: "95%", label: "En las evaluaciones técnicas del proceso para elegir Fiscal General (2018)" },
     { value: "4", label: "Ámbitos del sistema de justicia: fiscalía, juzgado, corte y Estado" },
     { value: "2", label: "Universidades donde ha ejercido la cátedra" }
   ],
@@ -124,6 +124,7 @@ export function buildSeed() {
 export const DEFAULT_TEXTS = {
   brandTagline: "Abogada · Servidora pública",
   nav_inicio: "Inicio", nav_trayectoria: "Trayectoria", nav_articulos: "Artículos", nav_muro: "Muro", nav_galeria: "Galería", nav_libros: "Libros", nav_contacto: "Contacto",
+  heroBadgeValue: "Dra.", heroBadgeLabel: "Doctora en Ciencias Penales",
   heroBtn1: "Ver sus libros", heroBtn2: "Conocer trayectoria",
   homeProfileEyebrow: "Perfil", homeProfileTitle: "Una vida de *servicio* público",
   homeBooksEyebrow: "Publicaciones", homeBooksTitle: "Libros de la *autora*", homeBooksLead: "Obras para estudiantes, profesionales y para toda persona interesada en la justicia y en el futuro del país.",

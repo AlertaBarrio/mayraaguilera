@@ -1,5 +1,5 @@
-import * as D from "./data.js?v=20261104c";
-import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261104c";
+import * as D from "./data.js?v=20261104d";
+import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261104d";
 
 let S = null;                       // ajustes del sitio
 const cache = {};                   // caché de colecciones por sesión
@@ -31,7 +31,7 @@ function updateSavedBadge() {
   const n = savedIds().length, b = $("#btnSaved");
   b.innerHTML = icon("bookmark") + (n ? `<span class="badge-dot">${n}</span>` : "");
 }
-const T = k => S.texts?.[k] ?? "";
+const T = k => { const v = S.texts?.[k] ?? ""; return v.trim() === "-" ? "" : v; };
 const TT = k => esc(T(k)).replace(/\*(.+?)\*/g, "<em>$1</em>");
 const lowerFirst = t => t ? t[0].toLowerCase() + t.slice(1) : "";
 const upperFirst = t => t ? t[0].toUpperCase() + t.slice(1) : "";
@@ -213,7 +213,7 @@ async function vHome() {
       <div class="hero-portrait fade-up" style="animation-delay:.3s">
         <div class="arch">${S.photo ? `<img src="${imgThumb(S.photo)}" alt="${esc(S.name)}" id="heroPhoto">` : `<div class="arch-mono"><b>${esc((first[0] || "") + (rest[0] || ""))}</b></div>`}</div>
         <div class="glass float-card"><small>Cargo actual</small><b>${esc(S.currentPosition)}</b><span>${esc(upperFirst(S.currentRank || ""))}</span></div>
-        ${S.stats?.[0] ? `<div class="glass float-chip"><b>${esc(S.stats[0].value)}</b><span>${esc(S.stats[0].label)}</span></div>` : ""}
+        ${T("heroBadgeLabel") ? `<div class="glass float-chip">${T("heroBadgeValue") ? `<b>${esc(T("heroBadgeValue"))}</b>` : ""}<span>${esc(T("heroBadgeLabel"))}</span></div>` : ""}
       </div>
     </div>
     <div class="marquee"><div class="marquee-track">${[...creds, ...creds, ...creds, ...creds].map(c => `<span>${esc(c)}</span>`).join("")}</div></div>
