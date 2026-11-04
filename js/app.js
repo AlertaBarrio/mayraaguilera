@@ -42,7 +42,8 @@ const imgThumb = img => esc(img?.thumb || img?.src || "");
 const loader = () => `<div class="loader"><span></span></div>`;
 const bgDeco = (orbs = true) => `<div class="hero-grid"></div>${orbs ? '<div class="orb o1"></div>' : ""}`;
 const SOCIAL_ICONS = { facebook: "facebook", instagram: "instagram", x: "xsocial", linkedin: "linkedin", youtube: "youtube", tiktok: "tiktok" };
-const socialsHtml = () => Object.entries(S.socials || {}).filter(([, u]) => u).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener" aria-label="${k}">${icon(SOCIAL_ICONS[k] || "link")}</a>`).join("");
+const validUrl = u => /^https?:\/\/[^\s/]+\.[^\s]+/i.test((u || "").trim());
+const socialsHtml = () => Object.entries(S.socials || {}).filter(([, u]) => validUrl(u)).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener" aria-label="${k}">${icon(SOCIAL_ICONS[k] || "link")}</a>`).join("");
 const avatarMe = (cls = "") => avatar(S.name, S.photo?.avatar || S.photo?.thumb || S.photo?.src, cls);
 const STATUS = { disponible: "Disponible", preventa: "Preventa", proximamente: "Próximamente", agotado: "Agotado" };
 
@@ -523,12 +524,12 @@ function renderChrome() {
   $(".brand-text small").textContent = T("brandTagline");
   $("#tabbar").innerHTML = [["", "home", NAV[""]], ["articulos", "article", NAV.articulos], ["muro", "wall", NAV.muro], ["galeria", "image", NAV.galeria], ["libros", "book", NAV.libros]]
     .map(([r, ic, t]) => `<a href="#/${r}" data-nav="${r}">${icon(ic)}<span>${t}</span></a>`).join("");
-  $("#drawerFoot").innerHTML = `<div class="socials">${socialsHtml()}</div>`;
+  $("#drawerFoot").innerHTML = socialsHtml() ? `<div class="socials">${socialsHtml()}</div>` : "";
   const [first, rest] = nameParts();
   $("#footer").innerHTML = `<div class="wrap">
     <div class="foot-grid">
       <div><a href="#/" class="brand"><img class="logo lg" src="assets/logo-ma.webp" alt="MA"><span class="brand-text"><b>${esc(S.name)}</b><small>${esc(S.role)}</small></span></a>
-        <p style="max-width:42ch;margin:1.2rem 0 1.4rem;font-size:.92rem">${esc(S.currentPosition)}. ${esc(S.currentRank)}.</p><div class="socials">${socialsHtml()}</div></div>
+        <p style="max-width:42ch;margin:1.2rem 0 1.4rem;font-size:.92rem">${esc(S.currentPosition)}. ${esc(S.currentRank)}.</p>${socialsHtml() ? `<div class="socials">${socialsHtml()}</div>` : ""}</div>
       <div><h5>Explorar</h5><nav>${["trayectoria", "articulos", "muro", "galeria", "libros"].map(k => `<a href="#/${k}">${esc(NAV[k])}</a>`).join("")}</nav></div>
       <div><h5>Contacto</h5><nav>${S.email ? `<a href="mailto:${esc(S.email)}">${esc(S.email)}</a>` : ""}${waDigits() ? `<a href="${waLink("Hola")}" target="_blank" rel="noopener">WhatsApp</a>` : ""}<a href="#/contacto">Enviar mensaje</a>${S.location ? `<span>${esc(S.location)}</span>` : ""}</nav></div>
     </div>
