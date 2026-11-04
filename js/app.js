@@ -33,6 +33,12 @@ function updateSavedBadge() {
 }
 const T = k => S.texts?.[k] ?? "";
 const TT = k => esc(T(k)).replace(/\*(.+?)\*/g, "<em>$1</em>");
+const lowerFirst = t => t ? t[0].toLowerCase() + t.slice(1) : "";
+const upperFirst = t => t ? t[0].toUpperCase() + t.slice(1) : "";
+// "Asesora Legal Presidencial, con rango de Secretaria de Estado"
+const cargoText = () => (S.currentPosition || "") + (S.currentRank ? ", " + lowerFirst(S.currentRank.replace(/\.$/, "")) : "");
+// "Abogada, doctora en Ciencias Penales"
+const roleText = () => (S.role || "").split("·").map(x => x.trim()).filter(Boolean).map((x, i) => i ? lowerFirst(x) : x).join(", ");
 const firstName = () => (S.name || "").split(" ")[0];
 const nameParts = () => { const p = (S.name || "").trim().split(/\s+/); return [p[0] || "", p.slice(1).join(" ")]; };
 const waDigits = () => (S.whatsapp || "").replace(/\D/g, "");
@@ -206,7 +212,7 @@ async function vHome() {
       </div>
       <div class="hero-portrait fade-up" style="animation-delay:.3s">
         <div class="arch">${S.photo ? `<img src="${imgThumb(S.photo)}" alt="${esc(S.name)}" id="heroPhoto">` : `<div class="arch-mono"><b>${esc((first[0] || "") + (rest[0] || ""))}</b></div>`}</div>
-        <div class="glass float-card"><small>Cargo actual</small><b>${esc(S.currentPosition)}</b><span>${esc(S.currentRank)}</span></div>
+        <div class="glass float-card"><small>Cargo actual</small><b>${esc(S.currentPosition)}</b><span>${esc(upperFirst(S.currentRank || ""))}</span></div>
         ${S.stats?.[0] ? `<div class="glass float-chip"><b>${esc(S.stats[0].value)}</b><span>${esc(S.stats[0].label)}</span></div>` : ""}
       </div>
     </div>
@@ -320,7 +326,7 @@ async function vArticle(id) {
       <button class="pill ${isSaved(p.id) ? "saved" : ""}" data-save="${p.id}">${icon("bookmark")} Guardar tema</button></div>
       ${shareRow("articulos/" + p.id, p.title)}
     </div>
-    <div class="author-box">${avatarMe()}<div><h4>${esc(S.name)}</h4><p>${esc(S.role)}. ${esc(S.currentPosition)}.</p></div></div>
+    <div class="author-box">${avatarMe()}<div><h4>${esc(S.name)}</h4><p>${esc(roleText())}. ${esc(cargoText())}.</p></div></div>
     <div id="comments"></div>
   </div>
   <section class="sec alt" id="related"></section>`;
@@ -528,8 +534,8 @@ function renderChrome() {
   const [first, rest] = nameParts();
   $("#footer").innerHTML = `<div class="wrap">
     <div class="foot-grid">
-      <div><a href="#/" class="brand"><img class="logo lg" src="assets/logo-ma.webp" alt="MA"><span class="brand-text"><b>${esc(S.name)}</b><small>${esc(S.role)}</small></span></a>
-        <p style="max-width:42ch;margin:1.2rem 0 1.4rem;font-size:.92rem">${esc(S.currentPosition)}. ${esc(S.currentRank)}.</p>${socialsHtml() ? `<div class="socials">${socialsHtml()}</div>` : ""}</div>
+      <div><a href="#/" class="brand"><img class="logo lg" src="assets/logo-ma.webp" alt="MA"><span class="brand-text"><b>${esc(S.name)}</b><small>${esc(roleText())}</small></span></a>
+        <p style="max-width:42ch;margin:1.2rem 0 1.4rem;font-size:.92rem">${esc(cargoText())}.</p>${socialsHtml() ? `<div class="socials">${socialsHtml()}</div>` : ""}</div>
       <div><h5>Explorar</h5><nav>${["trayectoria", "articulos", "muro", "galeria", "libros"].map(k => `<a href="#/${k}">${esc(NAV[k])}</a>`).join("")}</nav></div>
       <div><h5>Contacto</h5><nav>${S.email ? `<a href="mailto:${esc(S.email)}">${esc(S.email)}</a>` : ""}${waDigits() ? `<a href="${waLink("Hola")}" target="_blank" rel="noopener">WhatsApp</a>` : ""}<a href="#/contacto">Enviar mensaje</a>${S.location ? `<span>${esc(S.location)}</span>` : ""}</nav></div>
     </div>

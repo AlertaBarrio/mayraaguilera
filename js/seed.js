@@ -8,10 +8,10 @@ export const DEFAULT_SETTINGS = {
   heroKicker: "Justicia · Servicio público · Compromiso con Honduras",
   heroText: "Una trayectoria construida en la justicia, la academia y el servicio público. Aquí comparto mis libros, ideas y actividades, y abro un espacio de diálogo sobre los temas que importan a Honduras.",
   currentPosition: "Asesora Legal Presidencial",
-  currentRank: "Con Rango de Secretaria de Estado",
+  currentRank: "con rango de Secretaria de Estado",
   photo: { src: "assets/mayra-retrato.webp", thumb: "assets/mayra-retrato-sm.webp", avatar: "assets/mayra-avatar.webp", w: 860, h: 1075 },
   bioShort: "Abogada, doctora en Ciencias Penales y con posgrado en Derecho Penal y Procesal Penal. Ha servido al sistema de justicia hondureño desde la fiscalía, la judicatura y la magistratura, y ha formado a nuevas generaciones de juristas como capacitadora y catedrática.",
-  bioHtml: "<p>Mayra Aguilera es abogada, doctora en Ciencias Penales y posee un posgrado en Derecho Penal y Procesal Penal. Ha sido capacitadora del Colegio de Abogados de Honduras (CAH) y catedrática en la UCENM y la UNICAH.</p><p>Posee una amplia trayectoria dentro del sistema de justicia hondureño, con experiencia tanto en la persecución penal como en la judicatura. Inició su carrera como fiscal del Ministerio Público, donde adquirió formación en investigación y judicialización de delitos. Más adelante se desempeñó como jueza de Sentencia en tribunales de primera instancia en Tegucigalpa.</p><p>Posteriormente fue nombrada magistrada de la Corte de Apelaciones de lo Civil de Francisco Morazán, desde donde conoció casos de alto impacto en materia civil.</p><p>En 2018 fue una de las candidatas más destacadas en el proceso para elegir fiscal general de la República, postulada por la Confederación de Trabajadores de Honduras (CTH), y obtuvo una de las calificaciones más altas del proceso: un 95 % en las evaluaciones técnicas.</p><p>Actualmente se desempeña como Asesora Legal Presidencial, con Rango de Secretaria de Estado.</p>",
+  bioHtml: "<p>Mayra Aguilera es abogada, doctora en Ciencias Penales y posee un posgrado en Derecho Penal y Procesal Penal. Ha sido capacitadora del Colegio de Abogados de Honduras (CAH) y catedrática en la UCENM y la UNICAH.</p><p>Posee una amplia trayectoria dentro del sistema de justicia hondureño, con experiencia tanto en la persecución penal como en la judicatura. Inició su carrera como fiscal del Ministerio Público, donde adquirió formación en investigación y judicialización de delitos. Más adelante se desempeñó como jueza de Sentencia en tribunales de primera instancia en Tegucigalpa.</p><p>Posteriormente fue nombrada magistrada de la Corte de Apelaciones de lo Civil de Francisco Morazán, desde donde conoció casos de alto impacto en materia civil.</p><p>En 2018 fue una de las candidatas más destacadas en el proceso para elegir fiscal general de la República, postulada por la Confederación de Trabajadores de Honduras (CTH), y obtuvo una de las calificaciones más altas del proceso: un 95 % en las evaluaciones técnicas.</p><p>Actualmente se desempeña como Asesora Legal Presidencial, con rango de Secretaria de Estado.</p>",
   credentials: [
     "Doctora en Ciencias Penales",
     "Posgrado en Derecho Penal y Procesal Penal",
@@ -28,7 +28,7 @@ export const DEFAULT_SETTINGS = {
     { year: "Judicatura", title: "Jueza de Sentencia", text: "Tribunales de primera instancia en Tegucigalpa." },
     { year: "Magistratura", title: "Magistrada de la Corte de Apelaciones de lo Civil", text: "Francisco Morazán. Conocimiento de casos de alto impacto en materia civil." },
     { year: "2018", title: "Candidata a Fiscal General de la República", text: "Postulada por la CTH. Obtuvo 95 % en las evaluaciones técnicas, una de las calificaciones más altas del proceso." },
-    { year: "Actualidad", title: "Asesora Legal Presidencial", text: "Con Rango de Secretaria de Estado." }
+    { year: "Actualidad", title: "Asesora Legal Presidencial", text: "Con rango de Secretaria de Estado." }
   ],
   categories: ["Justicia", "Derecho Penal", "Derecho Constitucional", "Derechos Humanos", "Política y sociedad", "Comunidad", "Educación", "Opinión"],
   email: "contacto@mayraaguilera.com",

@@ -508,7 +508,7 @@ VIEWS.perfil = async () => {
         <div class="f"><label>Nombre completo</label><input name="fullName" value="${esc(S.fullName)}"></div>
         <div class="f full"><label>Título profesional</label><input name="role" value="${esc(S.role)}"><span class="hint">Usá « · » para separar, ej. Abogada · Doctora en Ciencias Penales</span></div>
         <div class="f"><label>Cargo actual</label><input name="currentPosition" value="${esc(S.currentPosition)}"></div>
-        <div class="f"><label>Detalle del cargo</label><input name="currentRank" value="${esc(S.currentRank)}"></div>
+        <div class="f"><label>Detalle del cargo</label><input name="currentRank" value="${esc(S.currentRank)}"><span class="hint">Se muestra así: «Asesora Legal Presidencial, con rango de Secretaria de Estado».</span></div>
         <div class="f full"><label>Frase superior de la portada</label><input name="heroKicker" value="${esc(S.heroKicker)}"></div>
         <div class="f full"><label>Texto de bienvenida</label><textarea name="heroText" rows="3" style="min-height:90px">${esc(S.heroText)}</textarea></div>
         <div class="f full"><label>Biografía corta (inicio)</label><textarea name="bioShort" rows="3" style="min-height:90px">${esc(S.bioShort)}</textarea></div>
