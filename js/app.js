@@ -1,5 +1,5 @@
-import * as D from "./data.js?v=20261104e";
-import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261104e";
+import * as D from "./data.js?v=20261104f";
+import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261104f";
 
 let S = null;                       // ajustes del sitio
 const cache = {};                   // caché de colecciones por sesión
@@ -37,7 +37,7 @@ const lowerFirst = t => t ? t[0].toLowerCase() + t.slice(1) : "";
 const upperFirst = t => t ? t[0].toUpperCase() + t.slice(1) : "";
 // "Asesora Legal Presidencial, con rango de Secretaria de Estado"
 const cargoText = () => (S.currentPosition || "") + (S.currentRank ? ", " + lowerFirst(S.currentRank.replace(/\.$/, "")) : "");
-// "Abogada, doctora en Ciencias Penales"
+// "Abogada, doctora en Derecho Penal"
 const roleText = () => (S.role || "").split("·").map(x => x.trim()).filter(Boolean).map((x, i) => i ? lowerFirst(x) : x).join(", ");
 const firstName = () => (S.name || "").split(" ")[0];
 const nameParts = () => { const p = (S.name || "").trim().split(/\s+/); return [p[0] || "", p.slice(1).join(" ")]; };

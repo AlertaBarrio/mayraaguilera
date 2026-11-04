@@ -1,6 +1,6 @@
-import * as D from "./data.js?v=20261104e";
-import { DEFAULT_TEXTS } from "./seed.js?v=20261104e";
-import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js?v=20261104e";
+import * as D from "./data.js?v=20261104f";
+import { DEFAULT_TEXTS } from "./seed.js?v=20261104f";
+import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js?v=20261104f";
 
 const root = $("#root");
 let S = null, mode = "";
@@ -506,7 +506,7 @@ VIEWS.perfil = async () => {
       <div class="panel"><h3>Datos principales</h3><div class="fgrid">
         <div class="f"><label>Nombre que se muestra</label><input name="name" required value="${esc(S.name)}"></div>
         <div class="f"><label>Nombre completo</label><input name="fullName" value="${esc(S.fullName)}"></div>
-        <div class="f full"><label>Título profesional</label><input name="role" value="${esc(S.role)}"><span class="hint">Usá « · » para separar, ej. Abogada · Doctora en Ciencias Penales</span></div>
+        <div class="f full"><label>Título profesional</label><input name="role" value="${esc(S.role)}"><span class="hint">Usá « · » para separar, ej. Abogada · Doctora en Derecho Penal</span></div>
         <div class="f"><label>Cargo actual</label><input name="currentPosition" value="${esc(S.currentPosition)}"></div>
         <div class="f"><label>Detalle del cargo</label><input name="currentRank" value="${esc(S.currentRank)}"><span class="hint">Se muestra así: «Asesora Legal Presidencial, con rango de Secretaria de Estado».</span></div>
         <div class="f full"><label>Frase superior de la portada</label><input name="heroKicker" value="${esc(S.heroKicker)}"></div>
