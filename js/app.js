@@ -534,7 +534,7 @@ function renderChrome() {
   const [first, rest] = nameParts();
   $("#footer").innerHTML = `<div class="wrap">
     <div class="foot-grid">
-      <div><a href="#/" class="brand"><img class="logo lg" src="assets/logo-ma.webp" alt="MA"><span class="brand-text"><b>${esc(S.name)}</b><small>${esc(roleText())}</small></span></a>
+      <div><a href="#/" class="brand"><img class="logo lg" src="assets/logo-ma.webp" alt="MA"><span class="brand-text"><b>${esc(S.name)}</b><small>${esc(T("brandTagline"))}</small></span></a>
         <p style="max-width:42ch;margin:1.2rem 0 1.4rem;font-size:.92rem">${esc(cargoText())}.</p>${socialsHtml() ? `<div class="socials">${socialsHtml()}</div>` : ""}</div>
       <div><h5>Explorar</h5><nav>${["trayectoria", "articulos", "muro", "galeria", "libros"].map(k => `<a href="#/${k}">${esc(NAV[k])}</a>`).join("")}</nav></div>
       <div><h5>Contacto</h5><nav>${S.email ? `<a href="mailto:${esc(S.email)}">${esc(S.email)}</a>` : ""}${waDigits() ? `<a href="${waLink("Hola")}" target="_blank" rel="noopener">WhatsApp</a>` : ""}<a href="#/contacto">Enviar mensaje</a>${S.location ? `<span>${esc(S.location)}</span>` : ""}</nav></div>
