@@ -1,5 +1,5 @@
-import * as D from "./data.js?v=20261104d";
-import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261104d";
+import * as D from "./data.js?v=20261104e";
+import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261104e";
 
 let S = null;                       // ajustes del sitio
 const cache = {};                   // caché de colecciones por sesión

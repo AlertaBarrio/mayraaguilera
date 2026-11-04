@@ -124,7 +124,7 @@ export function buildSeed() {
 export const DEFAULT_TEXTS = {
   brandTagline: "Abogada · Servidora pública",
   nav_inicio: "Inicio", nav_trayectoria: "Trayectoria", nav_articulos: "Artículos", nav_muro: "Muro", nav_galeria: "Galería", nav_libros: "Libros", nav_contacto: "Contacto",
-  heroBadgeValue: "Dra.", heroBadgeLabel: "Doctora en Ciencias Penales",
+  heroBadgeValue: "Dra.", heroBadgeLabel: "Doctora en Derecho Penal",
   heroBtn1: "Ver sus libros", heroBtn2: "Conocer trayectoria",
   homeProfileEyebrow: "Perfil", homeProfileTitle: "Una vida de *servicio* público",
   homeBooksEyebrow: "Publicaciones", homeBooksTitle: "Libros de la *autora*", homeBooksLead: "Obras para estudiantes, profesionales y para toda persona interesada en la justicia y en el futuro del país.",
