@@ -1,6 +1,6 @@
 // Capa de datos: funciona igual en MODO DEMO (navegador) y con Firebase (producción).
-import { firebaseConfig, DEMO_MODE, FIREBASE_VERSION, ADMIN_EMAILS } from "./config.js?v=20261104f";
-import { buildSeed, DEFAULT_SETTINGS, DEFAULT_TEXTS } from "./seed.js?v=20261104f";
+import { firebaseConfig, DEMO_MODE, FIREBASE_VERSION, ADMIN_EMAILS } from "./config.js?v=20261106a";
+import { buildSeed, DEFAULT_SETTINGS, DEFAULT_TEXTS } from "./seed.js?v=20261106a";
 
 const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const listeners = new Set();

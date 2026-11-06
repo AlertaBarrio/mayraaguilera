@@ -1,6 +1,6 @@
-import * as D from "./data.js?v=20261104f";
-import { DEFAULT_TEXTS } from "./seed.js?v=20261104f";
-import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js?v=20261104f";
+import * as D from "./data.js?v=20261106a";
+import { DEFAULT_TEXTS } from "./seed.js?v=20261106a";
+import { $, $$, esc, icon, timeAgo, fmtDate, sanitize, toast, modal, confirmBox, lightbox, processImage, avatar, readTime } from "./ui.js?v=20261106a";
 
 const root = $("#root");
 let S = null, mode = "";
