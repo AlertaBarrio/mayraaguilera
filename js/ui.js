@@ -1,4 +1,4 @@
-import { imageSrc } from "./data.js?v=20261106a";
+import { imageSrc } from "./data.js?v=20261118a";
 
 export const $ = (s, r = document) => r.querySelector(s);
 export const $$ = (s, r = document) => [...r.querySelectorAll(s)];

@@ -1,5 +1,5 @@
-import * as D from "./data.js?v=20261106a";
-import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261106a";
+import * as D from "./data.js?v=20261118a";
+import { $, $$, esc, icon, timeAgo, fmtDate, linkify, sanitize, toast, modal, confirmBox, lightbox, reveal, avatar, readTime } from "./ui.js?v=20261118a";
 
 let S = null;                       // ajustes del sitio
 const cache = {};                   // caché de colecciones por sesión
@@ -237,9 +237,9 @@ async function vHome() {
   <section class="sec dark" id="homeBooks"></section>
   <section class="sec" id="homeArticles"></section>
   <section class="sec alt" id="homeGallery"></section>
-  <section class="sec"><div class="wrap"><div class="cta-band reveal">${bgDeco()}
-    <div><h2>${TT("ctaTitle")}</h2><p>${esc(T("ctaText"))}</p></div>
-    <div class="cta-row" style="margin:0"><a href="#/contacto" class="btn gold">${icon("mail")} ${esc(T("ctaButton"))}</a>${waDigits() ? `<a href="${waLink("Hola, quisiera comunicarme con la Dra. " + S.name)}" target="_blank" rel="noopener" class="btn ghost-light">${icon("whatsapp")} WhatsApp</a>` : ""}</div>
+  <section class="sec tight"><div class="wrap"><div class="cta-band reveal">${bgDeco()}
+    <div class="cta-text"><h2>${TT("ctaTitle")}</h2><p>${esc(T("ctaText"))}</p></div>
+    <div class="cta-row cta-actions"><a href="#/contacto" class="btn gold">${icon("mail")} ${esc(T("ctaButton"))}</a>${waDigits() ? `<a href="${waLink("Hola, quisiera comunicarme con la Dra. " + S.name)}" target="_blank" rel="noopener" class="btn ghost-light">${icon("whatsapp")} WhatsApp</a>` : ""}</div>
   </div></div></section>`;
 
   if (S.photo) D.imageSrc(S.photo).then(s => { const im = $("#heroPhoto"); if (im) im.src = s; });
@@ -293,18 +293,18 @@ async function vArticles(q) {
   let cat = q.get("tema") || "", term = "";
   view.innerHTML = pageHead(esc(T("articlesEyebrow")), TT("articlesTitle"), esc(T("articlesLead"))) + `
   <section class="sec" style="padding-top:3rem"><div class="wrap">
-    <div class="toolbar"><div class="chips" id="cats"><button class="chip" data-c="">Todos</button>${cats.map(c => `<button class="chip" data-c="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-      <label class="searchbox">${icon("search")}<input type="search" id="q" placeholder="Buscar artículos…" aria-label="Buscar"></label></div>
+    ${all.length ? `<div class="toolbar"><div class="chips" id="cats"><button class="chip" data-c="">Todos</button>${cats.map(c => `<button class="chip" data-c="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+      <label class="searchbox">${icon("search")}<input type="search" id="q" placeholder="Buscar artículos…" aria-label="Buscar"></label></div>` : ""}
     <div class="cards" id="list"></div></div></section>`;
   const draw = () => {
     const t = term.toLowerCase();
     const res = all.filter(a => (!cat || a.category === cat) && (!t || (a.title + " " + a.excerpt).toLowerCase().includes(t)));
     $$("#cats .chip").forEach(c => c.classList.toggle("on", c.dataset.c === cat));
-    $("#list").innerHTML = res.length ? res.map((p, i) => articleCard(p, i === 0 && !cat && !t && res.length > 2, "d" + (i % 3))).join("") : `<div class="empty" style="grid-column:1/-1">${icon("article")}<h3>Sin resultados</h3><p>Probá con otro tema o palabra.</p></div>`;
+    $("#list").innerHTML = res.length ? res.map((p, i) => articleCard(p, i === 0 && !cat && !t && res.length > 2, "d" + (i % 3))).join("") : `<div class="empty" style="grid-column:1/-1">${all.length ? `${icon("article")}<h3>Sin resultados</h3><p>Probá con otro tema o palabra.</p>` : `${icon("article")}<h3>Muy pronto</h3><p>Aquí se publicarán sus artículos y reflexiones.</p>`}</div>`;
     bindSaveButtons($("#list")); reveal();
   };
-  $("#cats").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; cat = b.dataset.c; history.replaceState(null, "", "#/articulos" + (cat ? "?tema=" + encodeURIComponent(cat) : "")); draw(); };
-  $("#q").oninput = e => { term = e.target.value; draw(); };
+  $("#cats") && ($("#cats").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; cat = b.dataset.c; history.replaceState(null, "", "#/articulos" + (cat ? "?tema=" + encodeURIComponent(cat) : "")); draw(); });
+  $("#q") && ($("#q").oninput = e => { term = e.target.value; draw(); });
   draw();
 }
 
@@ -406,11 +406,12 @@ async function vGallery(q) {
   view.innerHTML = pageHead(esc(T("galleryEyebrow")), TT("galleryTitle"), esc(T("galleryLead"))) + `
   <section class="sec" style="padding-top:3rem"><div class="wrap">
     ${albums.length > 1 ? `<div class="chips albums" id="albums"><button class="chip" data-a="">Todo · ${all.length}</button>${albums.map(a => `<button class="chip" data-a="${esc(a)}">${esc(a)} · ${all.filter(g => g.album === a).length}</button>`).join("")}</div>` : ""}
-    <div class="masonry" id="grid"></div></div></section>`;
+    <div class="masonry" id="grid"></div><div class="empty" id="gEmpty" hidden>${icon("image")}<h3>Muy pronto</h3><p>Aquí se compartirán fotos de sus actividades.</p></div></div></section>`;
   const draw = () => {
     const list = all.filter(g => !al || g.album === al);
     $$("#albums .chip").forEach(c => c.classList.toggle("on", c.dataset.a === al));
-    $("#grid").innerHTML = list.length ? list.map(galleryTile).join("") : `<div class="empty">${icon("image")}<h3>Aún no hay fotos</h3></div>`;
+    $("#grid").innerHTML = list.length ? list.map(galleryTile).join("") : "";
+    $("#gEmpty").hidden = !!list.length;
     $$("#grid .m-item").forEach(b => b.onclick = () => lightbox(galleryLb(list), +b.dataset.i));
     reveal();
   };

@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS = {
     { year: "Actualidad", title: "Asesora Legal Presidencial", text: "Con rango de Secretaria de Estado." }
   ],
   categories: ["Justicia", "Derecho Penal", "Derecho Constitucional", "Derechos Humanos", "Política y sociedad", "Comunidad", "Educación", "Opinión"],
-  email: "contacto@mayraaguilera.com",
+  email: "",
   phone: "",
   whatsapp: "",
   location: "Tegucigalpa, Honduras",
